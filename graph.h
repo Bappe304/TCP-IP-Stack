@@ -1,3 +1,12 @@
+/*
+ * Description: This file contains the basic strucutres such as node, interface, link and graphs.
+ *
+ *
+ *
+ *
+*/
+
+
 #include "gluethread/glthread.h"
 #define NODE_NAME_SIZE 16
 #define IF_NAME_SIZE 16
