@@ -69,3 +69,22 @@ void remove_glthread(glthread_t *curr_glthread)
   curr_glthread->right = NULL;
   curr_glthread->left = NULL;
 }
+
+void delete_glthread_list(glthread_t *base_glthread)
+{
+  glthread_t *glthreadptr = NULL;
+
+  ITERATE_GLTHREAD_BEGIN(base_glthread, glthreadptr)
+  {
+    remove_glthread(glthreadptr);
+  } 
+
+  ITERATE_GLTHREAD_END(base_glthread, glthreadptr);
+}
+
+void glthread_add_last(glthread_t *base_glthread, glthread_t *new_glhtread)
+{
+  glthread_t *glthreadptr = NULL,
+             *prevglthreadptr = NULL;
+}
+

@@ -40,7 +40,7 @@ void glthread_add_last(glthread_t *base_glthread, glthread_t *new_glthread);
 	{
 		_glthread_ptr = (glthreadptr)->right;
 
-                #define ITERATE_GLTHREAD_END(glthreadptrstart, glthreadptr)
+    #define ITERATE_GLTHREAD_END(glthreadptrstart, glthreadptr)
 
 	}
 }
