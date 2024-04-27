@@ -41,7 +41,8 @@ struct node_{
     char node_name[NODE_NAME_SIZE];
     interface_t *intf[MAX_INTF_PER_NODE];
     glthread_t graph_glue;
-};	
+};
+GLTHREAD_TO_STRUCT(graph_glue_to_node, node_t, graph_glue);
 
 typedef struct graph_{
     
@@ -49,6 +50,14 @@ typedef struct graph_{
     glthread_t node_list;
 
 }graph_t;
+
+
+node_t * create_graph_node(graph_t *graph, char *node_name);
+
+graph_t * create_new_graph(char *topology_name);
+
+void insert_link_between_two_nodes(node_t *node1, node_t *node2, char *from_if_name, char *to_if_name, unsigned int cost);
+
 
 
 
@@ -84,7 +93,8 @@ static inline int get_node_intf_available_slot(node_t *node)
 {
     for(int i=0; i<MAX_INTF_PER_NODE; i++)
     {
-       if (node->intf[i] == NULL);
+       if (node->intf[i])
+         continue;
        return i;
     }	 
     

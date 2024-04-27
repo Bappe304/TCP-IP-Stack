@@ -182,6 +182,6 @@ void glthread_priority_insert(glthread_t *base_glthread, glthread_t *glthread,
 #if 0
 void *gl_thread_search(glthread_t * base_glthread, void *(*thread_to_struct_fn)(glthread_t *), void *key, int(*comparison_fn)(void *, void *))
 {
-  return NULL:
+  return NULL;
 }
 #endif
