@@ -138,9 +138,9 @@ void glthread_priority_insert(glthread_t *base_glthread, glthread_t *glthread,
   /* Only one node*/
   if(base_glthread->right && !base_glthread->right->right)
   {
-    if(comp_fn(GLTHREAD_GET_USER_DATA_FROM_OFFSET(base_glthread->right, offset), GLTH    READ_GET_USER_DATA_FROM_OFFSET(glthread, offset)) == -1)
+    if(comp_fn(GLTHREAD_GET_USER_DATA_FROM_OFFSET(base_glthread->right, offset), GLTHREAD_GET_USER_DATA_FROM_OFFSET(glthread, offset)) == -1)
     {
-      glthread_add_next(base_glthread->right, glthread)
+      glthread_add_next(base_glthread->right, glthread);
     }
     else 
     {

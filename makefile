@@ -2,9 +2,11 @@ CC=gcc
 CFLAGS=-g 
 TARGET:test.exe
 
-OBJS=gluethread/glthread.o \
+OBJS=gluethread/glthread.o	\
 		 graph.o 							\
 		 topologies.o 				\
+		 testapp.o 						\
+		 
 
 test.exe:testapp.o ${OBJS}
 	${CC}	${CFLAGS}	testapp.o ${OBJS}	-o test.exe
