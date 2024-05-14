@@ -101,6 +101,42 @@ static inline int get_node_intf_available_slot(node_t *node)
     return -1;   
 }	
 
+/*API to return the pointer to the local interface of a node, by its interface name*/
+static inline interface_t *get_node_if_by_name(node_t *node, char *if_name)
+{
+    interface_t *intf;
+    for(int i=0; i<MAX_INTF_PER_NODE; i++)
+    {
+        intf = node->intf[i];
+        if(!intf) return NULL;
+        if(strcmp(intf->if_name, if_name, IF_NAME_SIZE) == 0)
+        {
+            return intf;
+        }
+    }
+
+    return NULL;
+}
+
+/*API to return the pointer to the node, searched by its name*/
+static inline node_t *get_node_by_node_name(graph_t *topo, char *node_name)
+{
+    node_t *node;
+    glthread_t *curr;
+    ITERATE_GLTHREAD_BEGIN(&topo->node_list, curr)
+    {
+        node = graph_glue_to_node(curr);
+        if(strcmp(node->node_name, node_name, NODE_NAME_SIZE)==0)
+        {
+            return node;
+        }
+
+    }ITERATE_GLTHREAD_END(&topo->node_list, curr);
+
+    return NULL;
+}
+
+
 /*Display Routines*/
 void dump_graph(graph_t *graph);
 void dump_node(node_t *node);
