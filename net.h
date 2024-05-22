@@ -49,9 +49,9 @@ typedef struct intf_nw_props_
     /*L3 properties*/
     bool_t is_ipadd_config; /*This should be set to TRUE incase the interface 
     has an IP address which also means that it would operate in the L3 mode*/
-
     ip_add_t ip_add;
     char mask;
+
 } intf_nw_props_t;
 
 static inline void
@@ -72,6 +72,8 @@ interface_assign_mac_address(interface_t *interface);
 
 /*IP for Node*/
 #define NODE_LO_ADDR(node_ptr)  ((node_ptr)->node_nw_prop.lb_addr.ip_addr)
+/*IP for Interface*/
+#define IS_INTF_L3_ADDR(intf_ptr)  (if((intf_ptr)->intf_nw_props.is_ipadd_config==TRUE)
 
 
 
