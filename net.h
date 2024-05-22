@@ -57,7 +57,7 @@ typedef struct intf_nw_props_
 static inline void
 init_intf_nw_prop(intf_nw_props_t *intf_nw_props)
 {
-    memset(intf_nw_props->mac_add.mac, 0, 48);
+    memset(intf_nw_props->mac_add.mac, 0, 6);
     intf_nw_props->is_ipadd_config = false;
     memset(intf_nw_props->ip_add.ip_addr, 0, 16);
     intf_nw_props->mask = 0;
