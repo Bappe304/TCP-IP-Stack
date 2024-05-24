@@ -1,7 +1,7 @@
 #ifndef __NET__
 #define __NET__
 
-#include "utils.h"
+#include <utils.h>
 #include <memory.h>
 
 /* Device IDS */
