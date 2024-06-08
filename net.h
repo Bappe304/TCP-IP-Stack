@@ -40,10 +40,7 @@ init_node_nw_prop(node_nw_prop_t *node_nw_prop)
     node_nw_prop->is_lb_addr_config = FALSE;
     memset(node_nw_prop->lb_addr.ip_addr, 0, 16);
 }
-typedef struct ip_add_
-{
-    char ip_addr[16];
-} ip_add_t;
+
 
 
 typedef struct intf_nw_props_
