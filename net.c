@@ -1,5 +1,7 @@
 /* Description----> This file contains general purpose Networking routines and APIs*/
 #include "graph.h"
+#include "net.h"
+#include "utils.h"
 #include <memory.h>
 #include <utils.h>
 #include <stdio.h>
@@ -57,7 +59,7 @@ bool_t node_set_loopback_address(node_t *node, char *ip_addr)
 
     node->node_nw_prop.is_lb_addr_config = TRUE;
     strncpy(NODE_LO_ADDR(node), ip_addr, 16);
-    NODE_LO_ADDR(node)[16] = '\0';
+    NODE_LO_ADDR(node)[15] = '\0';
 
     return TRUE;
 }
@@ -67,10 +69,10 @@ bool_t node_set_intf_ip_address(node_t *node, char *local_if,char *ip_addr, char
     interface_t *interface = get_node_if_by_name(node, local_if);
     if(!interface) assert(0);
 
-    strncpy(IF_IP(interface), ip_addr, 16);
-    IF_IP(interface)[16] = '\0';
-    interface->intf_nw_props.mask = mask;
     interface->intf_nw_props.is_ipadd_config = TRUE;
+    strncpy(IF_IP(interface), ip_addr, 16);
+    IF_IP(interface)[15] = '\0';
+    interface->intf_nw_props.mask = mask;
     return TRUE;
 }
 
@@ -89,7 +91,7 @@ void dump_node_nw_props(node_t *node)
     printf("\t node flags : %u", node->node_nw_prop.flags);
     if(node->node_nw_prop.is_lb_addr_config)
     {
-        printf("\t lo(node) addr : %s/32\n", NODE_LO_ADDR(node));
+        printf("\t IP loopback addr : %s/32\n", NODE_LO_ADDR(node));
     }
 }
 
