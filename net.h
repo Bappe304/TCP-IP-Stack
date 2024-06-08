@@ -1,13 +1,13 @@
 #ifndef __NET__
 #define __NET__
 
-#include <utils.h>
+#include "utils.h"
 #include <memory.h>
 
 /* Device IDS */
-#define L3_ROUTER (1 << 0)
-#define L2_SWITCH (1 << 1)
-#define HUB       (1 << 2)
+#define L3_ROUTER (1 << 0) /*integer value is 1 for ROUTER*/
+#define L2_SWITCH (1 << 1) /*integer value is 2 for SWITCH*/
+#define HUB       (1 << 2) /*integer value is 4 for HUB*/
 
 
 typedef struct graph_ graph_t;
@@ -37,9 +37,14 @@ static inline void
 init_node_nw_prop(node_nw_prop_t *node_nw_prop)
 {
     node_nw_prop->flags = 0;
-    node_nw_prop->is_lb_addr_config = false;
+    node_nw_prop->is_lb_addr_config = FALSE;
     memset(node_nw_prop->lb_addr.ip_addr, 0, 16);
 }
+typedef struct ip_add_
+{
+    char ip_addr[16];
+} ip_add_t;
+
 
 typedef struct intf_nw_props_
 {
@@ -58,7 +63,7 @@ static inline void
 init_intf_nw_prop(intf_nw_props_t *intf_nw_props)
 {
     memset(intf_nw_props->mac_add.mac, 0, 6);
-    intf_nw_props->is_ipadd_config = false;
+    intf_nw_props->is_ipadd_config = FALSE;
     memset(intf_nw_props->ip_add.ip_addr, 0, 16);
     intf_nw_props->mask = 0;
 }
@@ -71,9 +76,7 @@ interface_assign_mac_address(interface_t *interface);
 #define IF_IP(intf_ptr)   ((intf_ptr)->intf_nw_props.ip_add.ip_addr)
 
 /*IP for Node*/
-#define NODE_LO_ADDR(node_ptr)  ((node_ptr)->node_nw_prop.lb_addr.ip_addr)
-/*IP for Interface*/
-#define IS_INTF_L3_ADDR(intf_ptr)  (if((intf_ptr)->intf_nw_props.is_ipadd_config==TRUE)
+#define NODE_LO_ADDR(node_ptr)  (node_ptr->node_nw_prop.lb_addr.ip_addr)
 
 
 
@@ -82,3 +85,14 @@ interface_assign_mac_address(interface_t *interface);
 bool_t node_set_device_type(node_t *node, unsigned int F);
 bool_t node_set_loopback_address(node_t *node, char *ip_addr);
 bool_t node_set_intf_ip_address(node_t *node, char *local_if, char *ip_addr, char mask);
+
+
+/*Dumping functions to dump the network information on the nodes 
+& interfaces*/
+void dump_nw_graph(graph_t *graph);
+void dump_node_nw_props(node_t *node);
+void dump_intf_nw_props(interface_t *interface);
+
+
+
+#endif /*__NET__*/

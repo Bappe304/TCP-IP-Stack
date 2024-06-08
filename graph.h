@@ -13,6 +13,7 @@
 #include "gluethread/glthread.h"
 #include "stddef.h"
 #include "net.h"
+#include <assert.h>
 
 #define NODE_NAME_SIZE 16
 #define IF_NAME_SIZE 16
@@ -42,8 +43,8 @@ struct link_{
 struct node_{
     char node_name[NODE_NAME_SIZE];
     interface_t *intf[MAX_INTF_PER_NODE];
-    glthread_t graph_glue;
     node_nw_prop_t node_nw_prop;
+    glthread_t graph_glue;
 };
 GLTHREAD_TO_STRUCT(graph_glue_to_node, node_t, graph_glue);
 
@@ -78,6 +79,10 @@ static inline node_t * get_node(interface_t *interface)
 /* API to return the neighbouring node of the interface provided in the argument*/
 static inline node_t * get_nbr_node(interface_t *interface)
 {
+
+    assert(interface->att_node);
+    assert(interface->link);
+    
     link_t *link = interface->link;
     
     if(interface == &(link->intf1))
@@ -112,7 +117,7 @@ static inline interface_t *get_node_if_by_name(node_t *node, char *if_name)
     {
         intf = node->intf[i];
         if(!intf) return NULL;
-        if(strcmp(intf->if_name, if_name, IF_NAME_SIZE) == 0)
+        if(strncmp(intf->if_name, if_name, IF_NAME_SIZE) == 0)
         {
             return intf;
         }
@@ -129,7 +134,7 @@ static inline node_t *get_node_by_node_name(graph_t *topo, char *node_name)
     ITERATE_GLTHREAD_BEGIN(&topo->node_list, curr)
     {
         node = graph_glue_to_node(curr);
-        if(strcmp(node->node_name, node_name, NODE_NAME_SIZE)==0)
+        if(strncmp(node->node_name, node_name, NODE_NAME_SIZE)==0)
         {
             return node;
         }

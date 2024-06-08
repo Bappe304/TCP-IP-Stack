@@ -67,7 +67,7 @@ bool_t node_set_intf_ip_address(node_t *node, char *local_if,char *ip_addr, char
     interface_t *interface = get_node_if_by_name(node, local_if);
     if(!interface) assert(0);
 
-    strcpy(IF_IP(interface), ip_addr, 16);
+    strncpy(IF_IP(interface), ip_addr, 16);
     IF_IP(interface)[16] = '\0';
     interface->intf_nw_props.mask = mask;
     interface->intf_nw_props.is_ipadd_config = TRUE;
@@ -113,7 +113,7 @@ void dump_intf_nw_props(interface_t *interface)
         IF_MAC(interface)[4],IF_MAC(interface)[5]);
 }
 
-void dumo_nw_graph(graph_t *graph)
+void dump_nw_graph(graph_t *graph)
 {
     node_t *node;
     glthread_t *curr;

@@ -37,6 +37,13 @@ void insert_link_between_two_nodes(node_t *node1, node_t *node2, char *from_if_n
 	empty_intf_slot = get_node_intf_available_slot(node2);
 	node2->intf[empty_intf_slot] = &link->intf2;
 
+	init_intf_nw_prop(&link->intf1.intf_nw_props);
+	init_intf_nw_prop(&link->intf2.intf_nw_props);
+
+	/*Now we assign random generated Mac address to the interface*/
+	interface_assign_mac_address(&link->intf1);
+	interface_assign_mac_address(&link->intf2);
+
 }
 
 
@@ -55,7 +62,7 @@ node_t * create_graph_node(graph_t *graph, char *node_name)
 	node_t *node = calloc(1,sizeof(node_t));
 	strncpy(node->node_name, node_name, NODE_NAME_SIZE);
 	node->node_name[NODE_NAME_SIZE] = '\0';
-        
+    init_node_nw_prop(&node->node_nw_prop);
 	init_glthread(&node->graph_glue);
 	glthread_add_next(&graph->node_list, &node->graph_glue);
 	return node;

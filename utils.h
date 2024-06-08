@@ -20,6 +20,7 @@ it does this by XORing the bit with '1'*/
 
 
 #define UNSET_BIT(n, pos)   (n = n & ((1 << pos) ^ 0xFFFFFFFF))
+#define SET_BIT(n, pos)     (n = n | 1 << pos)
 
 
 #endif /*  __UTILS__ */
