@@ -21,7 +21,7 @@ typedef struct ip_add_
 
 typedef struct mac_add_
 {
-    char mac[6];
+    unsigned char mac[6];
 } mac_add_t;
 
 typedef struct nope_nw_prop_

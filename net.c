@@ -109,7 +109,7 @@ void dump_intf_nw_props(interface_t *interface)
         printf("\t IP Addr = %s/%u", "Nil", 0);
     }
 
-    printf("\t MAC : %u:%u:%u:%u:%u:%u\n", 
+    printf("\t MAC : %02x:%02x:%02x:%02x:%02x:%02x\n", 
         IF_MAC(interface)[0],IF_MAC(interface)[1],
         IF_MAC(interface)[2],IF_MAC(interface)[3],
         IF_MAC(interface)[4],IF_MAC(interface)[5]);
