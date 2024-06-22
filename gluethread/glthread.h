@@ -29,7 +29,8 @@ void glthread_add_last(glthread_t *base_glthread, glthread_t *new_glthread);
 	    return (structure_name *)((char *)(glthreadptr) - (char *)&(((structure_name *)0)->field_name)); \
     }
 
-
+/*MACRO to move the to the first node from the dummy node
+which in this case is (node_list)*/
 #define BASE(glthreadptr) ((glthreadptr)->right)
 
 #define ITERATE_GLTHREAD_BEGIN(glthreadptrstart, glthreadptr) \

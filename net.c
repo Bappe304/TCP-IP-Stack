@@ -117,10 +117,10 @@ void dump_intf_nw_props(interface_t *interface)
 
 void dump_nw_graph(graph_t *graph)
 {
-    node_t *node;
-    glthread_t *curr;
-    interface_t *interface;
-    unsigned int i;
+    node_t *node = NULL;
+    glthread_t *curr = NULL;
+    interface_t *interface = NULL;
+    // unsigned int i;
 
     printf("Topology Name = %s\n", graph->topology_name);
 
@@ -128,7 +128,7 @@ void dump_nw_graph(graph_t *graph)
     {
         node = graph_glue_to_node(curr);
         dump_node_nw_props(node);
-        for(i=0; i<MAX_INTF_PER_NODE; i++)
+        for(int i=0; i<MAX_INTF_PER_NODE; i++)
         {
             interface = node->intf[i];
             if(!interface) break;
