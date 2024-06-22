@@ -45,6 +45,22 @@ void apply_mask(char *prefix, char mask, char *str_prefix)
                      the host machine and the network byte order, if the input's endianess doesn't match is just
                      reverses the input's byter order*/
 
-                     
+
 
 }
+
+void
+layer2_fill_with_broadcast_mac(char *mac_array)
+{
+    /*We can't just copy the 0xFFFFFFFFFFFF into it as 'char arrays' are typically
+    set byte wise and therefore this string would overflow while assigning.*/
+    for(int i=0; i<6; i++)
+    {
+        mac_array[i] = 0xFF;
+    }
+}
+
+#define IS_MAC_BROADCAST_ADDR(mac) \
+        ((mac[0]==0xFF) && (mac[0]==0xFF) && (mac[0]==0xFF) && \
+        (mac[0]==0xFF) && (mac[0]==0xFF) && (mac[0]==0xFF)) 
+

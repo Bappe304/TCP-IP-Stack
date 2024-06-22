@@ -2,6 +2,7 @@
 #include "graph.h"
 #include "net.h"
 #include "utils.h"
+#include "utils.c"
 #include <memory.h>
 #include <utils.h>
 #include <stdio.h>
@@ -75,6 +76,50 @@ bool_t node_set_intf_ip_address(node_t *node, char *local_if,char *ip_addr, char
     interface->intf_nw_props.mask = mask;
     return TRUE;
 }
+
+
+interface_t *
+node_get_matching_subnet_interface(node_t *node, char *ip_addr)
+{
+    char *subnet_node_intf = calloc(1,sizeof(ip_add_t));
+    char *subnet_ipaddr = calloc(1,sizeof(ip_add_t));
+
+    for(int i=0; i<MAX_INTF_PER_NODE; i++)
+    {
+        interface_t *interface = node->intf[i];
+        if(!interface)
+        return NULL;
+
+        if(interface->intf_nw_props.is_ipadd_config == TRUE)
+        {
+            apply_mask(ip_addr,interface->intf_nw_props.mask,subnet_ipaddr);
+            apply_mask(IF_IP(interface), interface->intf_nw_props.mask, subnet_node_intf);
+            if(strncmp(subnet_ipaddr,subnet_node_intf, 16) == 0)
+            {
+                return interface;
+            }
+        }
+    }
+    return NULL;
+}
+
+unsigned int
+convert_ip_from_str_to_int(char *ip_addr)
+{
+    unsigned int binary_form = 0;
+
+    /*This has converted the IP address to Network Byte Order(Big-Endian)*/
+    binary_form = inet_pton(AF_INET,ip_addr,binary_form);
+
+    /*Here we converted it back to the Host Byte Order that can be either 
+    little-endian or big-endian depending on the architechture*/
+    binary_form = ntohl(binary_form);
+
+    return binary_form;
+}
+
+
+
 
 
 /*This unset API isnt being used in the scope of this 
