@@ -109,7 +109,7 @@ convert_ip_from_str_to_int(char *ip_addr)
     unsigned int binary_form = 0;
 
     /*This has converted the IP address to Network Byte Order(Big-Endian)*/
-    binary_form = inet_pton(AF_INET,ip_addr,binary_form);
+    binary_form = inet_pton(AF_INET,ip_addr,&binary_form);
 
     /*Here we converted it back to the Host Byte Order that can be either 
     little-endian or big-endian depending on the architechture*/
@@ -118,6 +118,15 @@ convert_ip_from_str_to_int(char *ip_addr)
     return binary_form;
 }
 
+void
+convert_ip_from_int_to_str(unsigned int ip_addr, char *output_buffer)
+{
+    /*Here we have converted the binary form to Network Byte Order bcoz inet_ntop 
+    expects the input in network byte order*/
+    ip_addr = htonl(ip_addr);
+    output_buffer = inet_ntop(AF_INET, &ip_addr, output_buffer, 16);
+    output_buffer[15] = '\0';
+}
 
 
 
