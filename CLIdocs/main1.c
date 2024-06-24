@@ -4,7 +4,7 @@
 #define CMDODE_SHOW_NODE 1
 
 int
-node_callback_handler(param_t *param. ser_buff_t *tlv_buf, op_mode enable_or_disable)
+node_callback_handler(param_t *param, ser_buff_t *tlv_buf, op_mode enable_or_disable)
 {
     printf("%s() is called ...\n", __FUNCTION__);
     return 0;
@@ -17,7 +17,7 @@ validate_node_name(char *value)
     return VALIDATION_SUCCESS; /*else return VALIDATION_FAILED*/
 }
 
-
+int
 main(int argc, char **argv){
 
     init_libcli();
