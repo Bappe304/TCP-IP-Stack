@@ -124,7 +124,7 @@ convert_ip_from_int_to_str(unsigned int ip_addr, char *output_buffer)
     /*Here we have converted the binary form to Network Byte Order bcoz inet_ntop 
     expects the input in network byte order*/
     ip_addr = htonl(ip_addr);
-    output_buffer = inet_ntop(AF_INET, &ip_addr, output_buffer, 16);
+    inet_ntop(AF_INET, &ip_addr, output_buffer, 16);
     output_buffer[15] = '\0';
 }
 

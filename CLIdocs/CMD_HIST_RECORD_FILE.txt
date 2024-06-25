@@ -1,4 +1,0 @@
-.
-show help
-.
-show node amazon
