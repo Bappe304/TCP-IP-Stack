@@ -3,8 +3,8 @@
 
 #define CMDODE_SHOW_NODE 1
 #define CMDODE_SHOW_NODE_LOOPBACK 2
-
 #define CMDODE_CONFIG_NODE_LOOPBACK 3
+#define CMDODE_NODE_ARP 4
 
 int
 node_callback_handler(param_t *param, ser_buff_t *tlv_buf, op_mode enable_or_disable){
@@ -63,6 +63,42 @@ validate_loopback_address(char *value){
     printf("%s() is called with value = %s\n", __FUNCTION__, value);
     return VALIDATION_SUCCESS; /*else return VALIDATION_FAILED*/
 }
+
+
+static int
+arp_handler(param_t *param, 
+            ser_buff_t *tlv_buf,
+            op_mode enable_or_disable)
+{
+    printf("%s() is called ...\n", __FUNCTION__);
+
+    int cmd_code = EXTRACT_CMD_CODE(tlv_buf);
+    printf("cmd_code = %d\n", cmd_code);
+
+    tlv_struct_t *tlv = NULL;
+    char* node_name = NULL;
+    char* ip_address = NULL;
+
+    TLV_LOOP_BEGIN(tlv_buf, tlv){
+        if(strncmp(tlv->leaf_id, "node_name", strlen("node_name")) == 0)
+        {
+            node_name = tlv->value;
+        }
+        else if(strncmp(tlv->leaf_id, "ip_address", strlen("ip_address")) == 0)
+        {
+            ip_address = tlv->value;
+        }
+    }TLV_LOOP_END;
+
+    switch(cmd_code)
+    {
+        case CMDODE_NODE_ARP:
+            printf("node_name = %s. ip_address = %s\n", node_name, ip_address);
+            break;
+    }
+}
+
+
 
 int
 main(int argc, char **argv){
@@ -214,7 +250,68 @@ main(int argc, char **argv){
                 }
             }
         }
-    }   
+    }
+
+    /*Implementing CMD4*/
+    /*run node <node-name> resolve-arp <ip-address>*/
+
+    {
+        /*run node*/
+        static param_t node;
+        init_param(&node,
+                   CMD,
+                   "node",
+                   0,
+                   0,
+                   INVALID,
+                   0,
+                   "Help : node");
+
+        libcli_register_param(run, &node);
+
+        {
+            /*run node <node-name>*/
+            static param_t node_name;
+            init_param(&node_name,
+                       LEAF,
+                       0,
+                       0,
+                       validate_node_name,
+                       STRING,
+                       "node_name",
+                       "Help : Node name");
+            libcli_register_param(&node, &node_name);
+
+            {
+                /*run node <node-name> resolve-arp*/
+                static param_t resolve_arp;
+                init_param(&resolve_arp,
+                        CMD,
+                        "resolve_arp",
+                        0,
+                        0,
+                        INVALID,
+                        0,
+                        "Help : resolve_arp");
+
+                libcli_register_param(&node_name, &resolve_arp);
+
+                {
+                    /*run node <node-name> resolve-arp <ip-address>*/
+                    static param_t ip_address;
+                    init_param(&ip_address,
+                            LEAF,
+                            0,
+                            arp_handler,
+                            validate_node_name,
+                            IPV4,
+                            "ip_address",
+                            "Help : IP_address");
+                    libcli_register_param(&node, &node_name);
+                }
+            }
+        }
+    } 
 
     support_cmd_negation(config);
     /*Do not add any param in config command tree after above line*/

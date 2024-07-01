@@ -3,6 +3,7 @@
         "stdio.h": "c",
         "graph.h": "c",
         "memory.h": "c",
-        "net.h": "c"
+        "net.h": "c",
+        "pthread.h": "c"
     }
 }
